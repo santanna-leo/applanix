@@ -335,12 +335,13 @@ autoware_sensing_msgs::msg::GnssInsOrientationStamped toAutowareOrientationMsg(
             const bool & enable_ned2enu_transform)
 {
 
+    constexpr float DEG_TO_RAD = M_PIf / 180.0f;
     autoware_sensing_msgs::msg::GnssInsOrientationStamped autowareOrientationMsg =
             toAutowareOrientationMsg(ins_solution, enable_ned2enu_transform);
 
-    autowareOrientationMsg.orientation.rmse_rotation_x = covariance.attitude_rms.roll / 180 * M_PI;
-    autowareOrientationMsg.orientation.rmse_rotation_y = covariance.attitude_rms.pitch / 180 * M_PI;
-    autowareOrientationMsg.orientation.rmse_rotation_z = covariance.attitude_rms.heading / 180 * M_PI;
+    autowareOrientationMsg.orientation.rmse_rotation_x = covariance.attitude_rms.roll * DEG_TO_RAD;
+    autowareOrientationMsg.orientation.rmse_rotation_y = covariance.attitude_rms.pitch * DEG_TO_RAD;
+    autowareOrientationMsg.orientation.rmse_rotation_z = covariance.attitude_rms.heading * DEG_TO_RAD;
 
     return autowareOrientationMsg;
 }
